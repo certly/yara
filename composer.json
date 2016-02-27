@@ -1,0 +1,17 @@
+{
+    "name": "certly/yara",
+    "require": {
+        "symfony/process": "^3.0"
+    },
+    "authors": [
+        {
+            "name": "Ian Carroll",
+            "email": "ian@certly.io"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Certly\\YARA\\": "."
+        }
+    }
+}
