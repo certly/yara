@@ -1,4 +1,5 @@
 <?php
+
 namespace Certly\YARA;
 
 use Symfony\Component\Process\Process;
@@ -33,8 +34,9 @@ class YARA
     /**
      * Match an $item against an array of $rules.
      *
-     * @param  array $rules
-     * @param  string $item
+     * @param array  $rules
+     * @param string $item
+     *
      * @return array
      */
     public function match(array $rules, string $item): array
@@ -69,6 +71,7 @@ class YARA
      *
      * @param array $arguments
      * @param array $options
+     *
      * @return string
      */
     protected function run(array $arguments, array $options = []): string
@@ -94,6 +97,7 @@ class YARA
      * Parse the output of a successful YARA command.
      *
      * @param string $output
+     *
      * @return array
      */
     protected function parseOutput(string $output): array
@@ -105,7 +109,7 @@ class YARA
 
             $matches[] = [
                 'rule' => $line[0],
-                'raw' => $line,
+                'raw'  => $line,
             ];
         }
 
