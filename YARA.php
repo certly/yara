@@ -65,7 +65,7 @@ class YARA
 
         return $this->parseOutput($output);
     }
-    
+
     /**
      * Retrieve the configured options.
      *
@@ -75,50 +75,50 @@ class YARA
     {
         return $this->options;
     }
-    
+
     /**
      * Overwrite the configured options with an array.
      *
-     * @param  array $options
-     * 
+     * @param array $options
+     *
      * @return array
      */
     public function setOptions(array $options): array
     {
         foreach ($options as $index => $option) {
-            $options[$index] = escapeshellarg($option);    
+            $options[$index] = escapeshellarg($option);
         }
-        
+
         return $this->options = $options;
     }
-    
+
     /**
      * Add an option to the configured options.
      *
-     * @param  string $option
-     * 
+     * @param string $option
+     *
      * @return string
      */
     public function setOption(string $option): string
     {
         return $this->setOptions(array_merge($this->options, [$option]));
     }
-    
+
     /**
      * Get the path used when calling YARA.
-     * 
+     *
      * @return string
      */
     public function getPath(): string
     {
         return $this->path;
     }
-    
+
     /**
      * Set the path used when calling YARA.
      *
-     * @param  string $path
-     * 
+     * @param string $path
+     *
      * @return string
      */
     public function setPath(string $path): string
