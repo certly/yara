@@ -11,14 +11,14 @@ class YARA
      *
      * @var string
      */
-    protected $path;
+    private $path;
 
     /**
      * Any options that should be passed to YARA.
      *
      * @var array
      */
-    protected $options;
+    private $options;
 
     /**
      * Create a new YARA.
@@ -27,8 +27,8 @@ class YARA
      */
     public function __construct(array $options = ['-w'], string $path = '')
     {
-        $this->path = $path;
-        $this->options = $options;
+        $this->setOptions($options);
+        $this->setPath($path);
     }
 
     /**
@@ -52,7 +52,7 @@ class YARA
         $output = $this->run([
             $ruleFile,
             $itemFile,
-        ], $this->options);
+        ], $this->getOptions());
 
         unlink($ruleFile);
         unlink($itemFile);
@@ -64,6 +64,66 @@ class YARA
         }
 
         return $this->parseOutput($output);
+    }
+    
+    /**
+     * Retrieve the configured options.
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+    
+    /**
+     * Overwrite the configured options with an array.
+     *
+     * @param  array $options
+     * 
+     * @return array
+     */
+    public function setOptions(array $options): array
+    {
+        foreach ($options as $index => $option) {
+            $options[$index] = escapeshellarg($option);    
+        }
+        
+        return $this->options = $options;
+    }
+    
+    /**
+     * Add an option to the configured options.
+     *
+     * @param  string $option
+     * 
+     * @return string
+     */
+    public function setOption(string $option): string
+    {
+        return $this->setOptions(array_merge($this->options, [$option]));
+    }
+    
+    /**
+     * Get the path used when calling YARA.
+     * 
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+    
+    /**
+     * Set the path used when calling YARA.
+     *
+     * @param  string $path
+     * 
+     * @return string
+     */
+    public function setPath(string $path): string
+    {
+        return $this->path = escapeshellarg($path);
     }
 
     /**
