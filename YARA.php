@@ -136,6 +136,7 @@ class YARA
      */
     protected function run(array $arguments, array $options = []): string
     {
+        /* HH_IGNORE_ERROR[4110] */
         $process = new Process($this->path.'yara '.implode($options, ' ').' '.implode($arguments, ' '));
 
         $process->mustRun();
