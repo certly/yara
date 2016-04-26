@@ -97,9 +97,9 @@ class YARA
      *
      * @param string $option
      *
-     * @return string
+     * @return array
      */
-    public function setOption(string $option): string
+    public function setOption(string $option): array
     {
         return $this->setOptions(array_merge($this->options, [$option]));
     }
