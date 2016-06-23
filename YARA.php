@@ -153,6 +153,8 @@ class YARA
     /**
      * Get a temporary file name with the given rules inside.
      *
+     * @param string $rules
+     * 
      * @return string
      */
     protected function ruleFile(string $rules): string
