@@ -61,6 +61,32 @@ class YARA
 
         return $this->parseOutput($output);
     }
+    
+    /**
+     * Match a file's contents against an array of $rules.
+     *
+     * @param array  $rules
+     * @param string $filePath
+     *
+     * @return array
+     */
+    public function matchFile(array $rules, string $filePath): array
+    {
+        $ruleFile = $this->ruleFile($rules = implode(PHP_EOL, $rules));
+
+        $output = $this->run([
+            $ruleFile,
+            escapeshellarg($filePath),
+        ], $this->getOptions());
+
+        $output = trim($output);
+
+        if (empty($output)) {
+            return [];
+        }
+
+        return $this->parseOutput($output);
+    }
 
     /**
      * Retrieve the configured options.
