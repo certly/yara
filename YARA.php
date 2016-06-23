@@ -41,12 +41,9 @@ class YARA
      */
     public function match(array $rules, string $item): array
     {
-        $ruleFile = $this->tempFile();
-        $rules = implode(PHP_EOL, $rules);
+        $ruleFile = $this->ruleFile($rules = implode(PHP_EOL, $rules));
 
         $itemFile = $this->tempFile();
-
-        file_put_contents($ruleFile, $rules);
         file_put_contents($itemFile, $item);
 
         $output = $this->run([
@@ -54,7 +51,6 @@ class YARA
             $itemFile,
         ], $this->getOptions());
 
-        unlink($ruleFile);
         unlink($itemFile);
 
         $output = trim($output);
@@ -145,13 +141,30 @@ class YARA
     }
 
     /**
-     * Get a temporary file name to use when storing rules.
+     * Get a temporary file name to use when storing items.
      *
      * @return string
      */
     protected function tempFile(): string
     {
         return tempnam(sys_get_temp_dir(), 'yara');
+    }
+    
+    /**
+     * Get a temporary file name with the given rules inside.
+     *
+     * @return string
+     */
+    protected function ruleFile(string $rules): string
+    {
+        $hash = hash('sha224', $rules);
+        $path = sys_get_temp_dir().DIRECTORY_SEPARATOR.$hash;
+
+        if (!file_exists($path)) {
+            file_put_contents($path, $rules);
+        }
+        
+        return $path;
     }
 
     /**
